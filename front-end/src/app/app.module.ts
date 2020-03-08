@@ -5,20 +5,22 @@ import { HttpClientModule }   from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { MenuComponent } from './components/menu/menu.component';
 import { Error404Component } from './pages/error404/error404.component';
-import { TransportadoraService } from './services/transportadora.service';
 import { ModalService } from './services/modal.service';
+import { TransportadoraService } from './services/transportadora.service';
 import { TransportadoraComponent } from './components/transportadora/transportadora.component';
-import { TransportadoraAlterarComponent } from './components/transportadora-alterar/transportadora-alterar.component';
-import { TransportadoraInserirComponent } from './components/transportadora-inserir/transportadora-inserir.component';
+import { TransportadoraFormularioComponent } from './components/transportadora-formulario/transportadora-formulario.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
+    MenuComponent,
     Error404Component,
     TransportadoraComponent,
-    TransportadoraInserirComponent,
-    TransportadoraAlterarComponent
+    TransportadoraFormularioComponent
   ],
   imports: [
     BrowserModule,

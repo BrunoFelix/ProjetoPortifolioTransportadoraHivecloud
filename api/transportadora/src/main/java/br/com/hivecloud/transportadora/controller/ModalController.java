@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.hivecloud.transportadora.model.response.Response;
 import br.com.hivecloud.transportadora.service.ModalService;
-import br.com.hivecloud.transportadora.service.TransportadoraService;
 
 @RestController
 @RequestMapping(value="/modal")
