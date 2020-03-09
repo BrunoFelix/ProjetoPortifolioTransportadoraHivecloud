@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Transportadora } from '../models/transportadora';
+import { normalizeGenFileSuffix } from '@angular/compiler/src/aot/util';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,10 @@ export class TransportadoraService {
 
   getBuscarTodos(){
     return this.httpClient.get<Transportadora>(environment.apiUrl + this.serviceName + '/buscarTodos/');
+  }
+
+  getBuscarPorParametros(nomes: string, ufs: string, cidades: string, modals: string){
+    return this.httpClient.get<Transportadora>(environment.apiUrl + this.serviceName + '/buscarPorParametros?'+nomes+'&'+ufs+'&'+cidades+'&'+modals);
   }
 
   getBuscarPorId(id: number){

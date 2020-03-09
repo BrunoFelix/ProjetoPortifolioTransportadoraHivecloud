@@ -1,5 +1,7 @@
 package br.com.hivecloud.transportadora.service;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 
 import br.com.hivecloud.transportadora.model.entity.Transportadora;
@@ -16,5 +18,7 @@ public interface TransportadoraService {
 	public ResponseEntity<Response> findAll();
 	
 	public ResponseEntity<Response> findById(Long id);
+	
+	public ResponseEntity<Response> findByParameters(List<String> nomes, List<String> ufs, List<String> cidades, List<Long> modals);
 	
 }
