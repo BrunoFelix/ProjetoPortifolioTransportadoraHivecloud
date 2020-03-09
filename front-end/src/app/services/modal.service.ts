@@ -14,6 +14,6 @@ export class ModalService {
   constructor(private httpClient: HttpClient, public router: Router) { }
 
   getBuscarTodos(){
-    return this.httpClient.get<Modal>(environment.apiUrl + this.serviceName + '/findAll/');
+    return this.httpClient.get<Modal>(environment.apiUrl + this.serviceName + '/buscarTodos/');
   }
 }

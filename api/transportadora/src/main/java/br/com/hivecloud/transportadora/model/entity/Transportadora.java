@@ -1,20 +1,17 @@
 package br.com.hivecloud.transportadora.model.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.Cascade;
-import javax.persistence.ForeignKey;
 
 @Entity
 @Table(name="transportadora")
@@ -23,53 +20,64 @@ public class Transportadora {
 	@Id
 	@Column(name="idTransportadora", nullable = false, unique = true)
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	@Size(min = 4)
 	@NotNull(message = "Por favor, preencha o campo de E-mail")
+	@NotBlank(message= "Campo E-mail não pode estar vazio")
+	@Email
 	private String email;
 	
 	@NotNull(message = "Por favor, preencha o campo Nome")
+	@NotBlank(message= "Campo Nome não pode estar vazio")
 	private String nome;
 	
 	@NotNull(message = "Por favor, preencha o campo Empresa")
+	@NotBlank(message= "Campo Empresa não pode estar vazio")
 	private String Empresa;
 	
 	@NotNull(message = "Por favor, preencha o campo Telefone")
+	@NotBlank(message= "Campo Telefone não pode estar vazio")
 	private String telefone;
 	
 	private String celular;
 	
 	private String whatsapp;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "idModal")
+	@NotNull(message="Por favor, preencha o campo Modal")
 	private Modal modal;
 	
 	private String cep;
 	
 	@NotNull(message = "Por favor, preencha o campo UF")
+	@NotBlank(message= "Campo UF não pode estar vazio")
 	private String uf;
 	
 	@NotNull(message = "Por favor, preencha o campo Cidade")
+	@NotBlank(message= "Campo Cidade não pode estar vazio")
 	private String cidade;
 	
 	@NotNull(message = "Por favor, preencha o campo Bairro")
+	@NotBlank(message= "Campo Bairro não pode estar vazio")
 	private String bairro;
 	
 	@NotNull(message = "Por favor, preencha o campo Rua/Avenida")
+	@NotBlank(message= "Campo Rua/Avenida não pode estar vazio")
 	private String rua;
 	
 	@NotNull(message = "Por favor, preencha o campo Número")
+	@NotBlank(message= "Campo Número não pode estar vazio")
 	private String numero;
 	
 	private String caminhoLogo;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

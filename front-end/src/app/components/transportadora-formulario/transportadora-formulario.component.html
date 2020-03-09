@@ -1,3 +1,4 @@
+<div class="loading" [style.display]="isLoadingResults == true ? 'block' : 'none'">Loading&#8230;</div>
 <app-menu></app-menu>
 <div class="row justify-content-md-center">
     <div class="col-2">
@@ -19,7 +20,7 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label text-lg-right">Empresa:</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="empresa" name="empresa" [(ngModel)]="transportadora.cnpj">
+                    <input type="text" class="form-control" id="empresa" name="empresa" [(ngModel)]="transportadora.empresa">
                 </div>
             </div>
             <div class="form-group row">
@@ -111,14 +112,34 @@
                 </div>
             </div>
             <div class="form-group row justify-content-md-center" *ngIf="acao=='Cadastrar'">
-                <button class="btn btn-primary btn-block" (click)="postTransportadora()">Cadastre-se Agora!</button>
+                <button class="btn btn-primary btn-block" (click)="postInserir()">Cadastre-se Agora!</button>
             </div>
             <div class="form-group row justify-content-md-center" *ngIf="acao!='Cadastrar'">
                 <div class="col-6">
-                    <button class="btn btn-primary btn-block">Atualizar</button>
+                    <button class="btn btn-primary btn-block" (click)="postAlterar()">Atualizar</button>
                 </div>
                 <div class="col-6">
-                    <button class="btn btn-primary btn-block">Deletar</button>
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalDeleteCenter">Deletar</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalDeleteCenter" tabindex="-1" role="dialog" aria-labelledby="modalDeleteCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="modalDeleteCenterTitle">Confirmação de exclusão?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                Deseja realmente excluir a transportadora de codigo {{transportadora.id}}?
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="postDeletarPorId(transportadora.id)">Sim</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>

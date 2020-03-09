@@ -19,7 +19,8 @@ export class TransportadoraFormularioComponent implements OnInit {
   private endereco: Endereco = new Endereco();
   private erro: string;
   public acao: string = "Cadastrar";
-  isLoadingResults: boolean = false;
+  public isLoadingResults: boolean = false;
+  public isAceitoTermo: boolean = false;
 
   constructor(private tranportadoraService: TransportadoraService, 
               private modalService: ModalService, 
@@ -32,23 +33,37 @@ export class TransportadoraFormularioComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe( parametros => {
       if (parametros['id']) {
+        this.isLoadingResults = true;
         this.acao = "Atualizar / Deletar Transportadora";
+        this.tranportadoraService.getBuscarPorId(parametros['id']).subscribe(
+          (data: Transportadora) => {
+              this.transportadora = data['data'];
+              this.isLoadingResults = false;
+            }, (error: any) => {
+              this.erro = error['erro'];
+              this.isLoadingResults = false;
+            }
+          );
       }
     });
   }
 
   getBuscarTodosModal(){
+    this.isLoadingResults = true;
     this.modalService.getBuscarTodos().subscribe(
       (data: Modal) => {
         this.listaModal = data['data'];
+        this.isLoadingResults = false;
       },
       (error: any) => {
         this.erro = error['erros'];
+        this.isLoadingResults = false;
       }
     );
   }
 
   localizarCep(){
+    this.isLoadingResults = true;
     this.tranportadoraService.getEnderecoViaCepByCep(this.transportadora.cep).subscribe(
       (data: Endereco) => {
         this.endereco = data;
@@ -56,10 +71,11 @@ export class TransportadoraFormularioComponent implements OnInit {
         this.transportadora.cidade = this.endereco.localidade;
         this.transportadora.bairro = this.endereco.bairro;
         this.transportadora.rua = this.endereco.logradouro;
+        this.isLoadingResults = false;
       },
       (error: any) => {
         this.erro = error['erro'];
-        console.log('ERROR', error);
+        this.isLoadingResults = false;
       }
     );
   }
@@ -68,10 +84,9 @@ export class TransportadoraFormularioComponent implements OnInit {
     alert(files.item(0).name);
   }
 
-  postTransportadora(){
-    console.log(this.transportadora);
-    this.transportadora.modal.id = null;
-    this.tranportadoraService.postTransportadora(this.transportadora).subscribe(
+  postInserir(){
+    this.isLoadingResults = true;
+    this.tranportadoraService.postInserir(this.transportadora).subscribe(
       (data: Transportadora) => {
           this.transportadora = data;
           this.isLoadingResults = false;
@@ -82,4 +97,34 @@ export class TransportadoraFormularioComponent implements OnInit {
         }
       );
   }
+
+  postAlterar(){
+    this.isLoadingResults = true;
+    this.tranportadoraService.postAlterar(this.transportadora).subscribe(
+      (data: Transportadora) => {
+          this.transportadora = data;
+          this.isLoadingResults = false;
+          this.router.navigate(['/transportadora']);
+        }, (error: any) => {
+          this.erro = error['erro'];
+          this.isLoadingResults = false;
+        }
+      );
+    this.isLoadingResults = false;
+  }
+
+  postDeletarPorId(id: number){
+    this.isLoadingResults = true;
+    this.tranportadoraService.postDeletarPorId(id).subscribe(
+      (data: Transportadora) => {
+        this.transportadora = data;
+        this.isLoadingResults = false;
+        this.router.navigate(['/transportadora']);
+      }, (error: any) => {
+        this.erro = error['erro'];
+        this.isLoadingResults = false;
+      }
+    );
+  }
+
 }
