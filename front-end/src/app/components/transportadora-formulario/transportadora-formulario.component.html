@@ -1,0 +1,150 @@
+<div class="loading" [style.display]="isLoadingResults == true ? 'block' : 'none'">Loading&#8230;</div>
+<app-menu></app-menu>
+<div class="row justify-content-md-center">
+    <div class="col-2">
+    </div>
+    <div class="col-8">
+        <form>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-lg-right">E-mail:</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" id="email" name="email" [(ngModel)]="transportadora.email">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-lg-right">Nome:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="nome" name="nome" [(ngModel)]="transportadora.nome">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-lg-right">Empresa:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="empresa" name="empresa" [(ngModel)]="transportadora.empresa">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-lg-right">Telefone:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="telefone" name="telefone" [(ngModel)]="transportadora.telefone">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-lg-right">Celular:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="celular" name="celular" [(ngModel)]="transportadora.celular">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-lg-right">Whatsapp:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="whatsapp" name="whatsapp" [(ngModel)]="transportadora.whatsapp">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-lg-right">Modal:</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="modal" name="modal" [(ngModel)]="transportadora.modal.id">
+                        <option *ngFor="let m of listaModal" value= {{m.id}}>
+                            {{m.descricao}}
+                        </option>
+                    </select>
+                </div>    
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-lg-right">CEP:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="CEP" (change)="localizarCep()" name="cep" [(ngModel)]="transportadora.cep">
+                </div>    
+                <label class="col-sm-2 col-form-label text-lg-right">Estado:</label>
+                <div class="col-sm-4">
+                    <select class="form-control" id="uf" name="uf" [(ngModel)]="transportadora.uf">
+                        <option value="PE">PE</option>
+                        <option value="AL">AL</option>
+                        <option value="MA">MA</option>
+                    </select>
+                </div> 
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-lg-right">Cidade:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="cidade" name="cidade" [(ngModel)]="transportadora.cidade">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-lg-right">Bairro:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="bairro" name="bairro" [(ngModel)]="transportadora.bairro">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-lg-right">Rua/Avenida:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="rua" name="rua" [(ngModel)]="transportadora.rua">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-lg-right">Número:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="numero" name="numero" [(ngModel)]="transportadora.numero">
+                </div>
+            </div>
+            <div class="form-group row justify-content-md-center">
+                <label class="col-md-12 text-center">Logo:</label>
+                <div class="col-md-3">
+                    <div class="avatar-upload">
+                        <div class="avatar-edit">
+                            <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" (change)="handleFileInput($event.target.files)"/>
+                            <label for="imageUpload"></label>
+                        </div>
+                        <div class="avatar-preview">
+                            <div id="imagePreview" style="background-image: url();">
+                            </div>
+                        </div>
+                    </div>              
+                </div>
+            </div>
+            <div class="form-group row justify-content-md-center" *ngIf="acao=='Cadastrar'">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="checkbox">
+                    <label class="form-check-label" for="checkboxlabel">Eu aceito os termos de serviço</label>
+                </div>
+            </div>
+            <div class="form-group row justify-content-md-center" *ngIf="acao=='Cadastrar'">
+                <button class="btn btn-primary btn-block" (click)="postInserir()">Cadastre-se Agora!</button>
+            </div>
+            <div class="form-group row justify-content-md-center" *ngIf="acao!='Cadastrar'">
+                <div class="col-6">
+                    <button class="btn btn-primary btn-block" (click)="postAlterar()">Atualizar</button>
+                </div>
+                <div class="col-6">
+                    <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalDeleteCenter">Deletar</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalDeleteCenter" tabindex="-1" role="dialog" aria-labelledby="modalDeleteCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="modalDeleteCenterTitle">Confirmação de exclusão?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                Deseja realmente excluir a transportadora de codigo {{transportadora.id}}?
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="postDeletarPorId(transportadora.id)">Sim</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-2">
+    </div>
+</div>
+
