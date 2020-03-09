@@ -2,6 +2,7 @@ package br.com.hivecloud.transportadora.service.serviceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +21,63 @@ public class TransportadoraServiceImpl implements TransportadoraService {
 	
 	private Response response;
 	
-	public ResponseEntity<Response> inserir(Transportadora transportadora) {
-		response = new Response();
-		
-		transportadoraRep.save(transportadora);
-		
-		return ResponseEntity.ok(response);
+	public ResponseEntity<Response> save(Transportadora transportadora) {
+		try {
+			response = new Response();
+			
+			response.setData(transportadoraRep.saveAndFlush(transportadora));
+			
+			return ResponseEntity.ok().body(response);
+		} catch (Exception e) {
+			List<String> listaErros = new ArrayList<String>();
+			listaErros.add(e.getMessage());
+			response.setErros(listaErros);
+			return ResponseEntity.badRequest().body(response);
+		}
+	}
+	
+	public ResponseEntity<Response> update(Transportadora transportadora) {
+		try {
+			response = new Response();
+			
+			ResponseEntity<Response> transportadoraConsulta = findById(transportadora.getId());
+			
+			if (transportadoraConsulta.getBody().getData() == null) {
+				response.getErros().add("Código de transportadora não encontrado!.");
+				return ResponseEntity.badRequest().body(response);
+			}
+			
+			response.setData(transportadoraRep.saveAndFlush(transportadora));
+			
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			List<String> listaErros = new ArrayList<String>();
+			listaErros.add(e.getMessage());
+			response.setErros(listaErros);
+			return ResponseEntity.badRequest().body(response);
+		}
+	}
+	
+	public ResponseEntity<Response> deleteById(Long id) {
+		try {
+			response = new Response();
+			
+			ResponseEntity<Response> transportadora = findById(id);
+			
+			if (transportadora.getBody().getData() == null) {
+				response.getErros().add("Código de transportadora não encontrado!.");
+				return ResponseEntity.badRequest().body(response);
+			}
+			
+			transportadoraRep.deleteById(id);
+			
+			return ResponseEntity.ok().body(response);
+		} catch (Exception e) {
+			List<String> listaErros = new ArrayList<String>();
+			listaErros.add(e.getMessage());
+			response.setErros(listaErros);
+			return ResponseEntity.badRequest().body(response);
+		}
 	}
 	
 	public ResponseEntity<Response> findAll(){
@@ -34,10 +86,36 @@ public class TransportadoraServiceImpl implements TransportadoraService {
 			List<Transportadora> listaTransportadora = transportadoraRep.findAll();
 			
 			if (listaTransportadora.size() <= 0) {
-				response.setMensagem("Ainda não existem dados de transportadora!");
+				List<String> listaErros = new ArrayList<String>();
+				listaErros.add("Ainda não existe nenhuma transportadora cadastrada!.");
+				response.setErros(listaErros);
+				return ResponseEntity.badRequest().body(response);
 			}
 			
 			response.setData(listaTransportadora);
+			
+			return ResponseEntity.ok().body(response);
+		} catch (Exception e) {
+			List<String> listaErros = new ArrayList<String>();
+			listaErros.add(e.getMessage());
+			response.setErros(listaErros);
+			return ResponseEntity.badRequest().body(response);
+		}
+	}
+	
+	public ResponseEntity<Response> findById(Long id){
+		response = new Response();
+		try {
+			Optional<Transportadora> transportadora = transportadoraRep.findById(id);
+			
+			if (transportadora == null || !transportadora.isPresent()) {
+				List<String> listaErros = new ArrayList<String>();
+				listaErros.add("Código de transportadora não encontrado!.");
+				response.setErros(listaErros);
+				return ResponseEntity.badRequest().body(response);
+			}
+			
+			response.setData(transportadora);
 			
 			return ResponseEntity.ok().body(response);
 		} catch (Exception e) {

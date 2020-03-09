@@ -1,43 +1,39 @@
 <app-menu></app-menu>
 <div class = "row">
-    <div class="col-12">
-        <div class="card mb-3">
-            <div class="row no-gutters">
-                <div class="col-md-1">
-                    <img src="../../../assets/image_transportadora_1.png" class="card-img padding-logo" alt="...">
-                </div>
-                <div class="col-md-4">
-                    <div class="card-body">
-                        <h5 class="card-title"><a [routerLink]="['1', 'visualizar']"> Xadrez -Rodoaéreo </a></h5>
-                        <p class="card-text">44.056.755/0001-83</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card-body">
-                        <h5 class="card-title">(81) 3499-8439 (81) 3499-8439</h5>
-                        <p class="card-text">qualidade@teste.com.br</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card-body">
-                     <p class="card-title">Fale agora: (81) 3499-8439</p>
+    <div class="col-12" *ngIf="erro!=null">
+        <h5 class="row justify-content-md-center">{{erro}}</h5>
+    </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <p>Transportadoras</p>
+            </div>
+            <div class="col-md-9" *ngFor="let transportadora of listaTransportadora">
+                <div class="card mb-3">
+                    <div class="row no-gutters">
+                        <div class="col-md-1">
+                            <img src="../../../assets/image_transportadora_1.png" class="card-img padding-logo" alt="...">
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card-body">
+                                <h5 class="card-title"><a (click)="chamaTelaVisualizar(transportadora.id)"> {{transportadora.nome}} </a></h5>
+                                <p class="card-text">{{transportadora.empresa}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card-body">
+                                <h5 class="card-title">{{transportadora.telefone}} {{transportadora.celular}}</h5>
+                                <p class="card-text">{{transportadora.email}}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card-body">
+                            <p class="card-title">Fale agora: {{transportadora.whatsapp}}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="card mb-3" style="max-width: 540px;">
-        <div class="row no-gutters">
-        <div class="col-md-4">
-            <img src="..." class="card-img" alt="...">
-        </div>
-        <div class="col-md-8">
-            <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-        </div>
-        </div>
-    </div>
+        </div>        
+
 </div>

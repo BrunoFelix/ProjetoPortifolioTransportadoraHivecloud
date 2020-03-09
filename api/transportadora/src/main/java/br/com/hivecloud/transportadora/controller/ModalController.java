@@ -16,7 +16,7 @@ public class ModalController {
 	@Autowired
 	private ModalService modalService;
 	
-	@GetMapping(value = "/findAll")
+	@GetMapping(value = "/buscarTodos")
 	public ResponseEntity<Response> findAll() {
 		return modalService.findAll();
 	}

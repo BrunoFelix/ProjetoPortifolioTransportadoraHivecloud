@@ -23,7 +23,23 @@ export class TransportadoraService {
     return this.httpClient.get<Endereco>(environment.viaCepUrl + cep + '/json');
   }
 
-  postTransportadora(transportadora : Transportadora){
+  getBuscarTodos(){
+    return this.httpClient.get<Transportadora>(environment.apiUrl + this.serviceName + '/buscarTodos/');
+  }
+
+  getBuscarPorId(id: number){
+    return this.httpClient.get<Transportadora>(environment.apiUrl + this.serviceName + '/buscarPorId/' + id);
+  }
+
+  postDeletarPorId(id: number){
+    return this.httpClient.post<Transportadora>(environment.apiUrl + this.serviceName + '/excluir', id, this.httpOptions);
+  }
+
+  postInserir(transportadora : Transportadora){
     return this.httpClient.post<Transportadora>(environment.apiUrl + this.serviceName + '/inserir', transportadora, this.httpOptions);
+  }
+
+  postAlterar(transportadora : Transportadora){
+    return this.httpClient.post<Transportadora>(environment.apiUrl + this.serviceName + '/alterar', transportadora, this.httpOptions);
   }
 }

@@ -5,6 +5,7 @@ import { TransportadoraComponent } from './components/transportadora/transportad
 import { TransportadoraFormularioComponent } from './components/transportadora-formulario/transportadora-formulario.component';
 
 const routes: Routes = [
+    { path: '', component: TransportadoraComponent},
     { path: 'transportadora', component: TransportadoraComponent},
     { path: 'transportadora/inserir', component: TransportadoraFormularioComponent},
     { path: 'transportadora/:id/visualizar', component: TransportadoraFormularioComponent},

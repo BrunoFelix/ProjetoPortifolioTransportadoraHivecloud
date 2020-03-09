@@ -4,7 +4,7 @@ export class Transportadora {
     public id: number;
     public email: string;
     public nome: string;
-    public cnpj: string;
+    public empresa: string;
     public telefone: string;
     public celular: string;
     public whatsapp: string;
