@@ -80,6 +80,33 @@ public class TransportadoraServiceImpl implements TransportadoraService {
 		}
 	}
 	
+	public ResponseEntity<Response> findByParameters(List<String> nomes, List<String> ufs, List<String> cidades, List<Long> modals){
+		response = new Response();
+		try {
+			List<Transportadora> listaTransportadora = transportadoraRep.findByParameters(nomes, ufs, cidades, modals);
+			
+			if (listaTransportadora.size() <= 0) {
+				List<String> listaErros = new ArrayList<String>();
+				listaErros.add("Nenhuma transportadora encontrada com os parâmetros informados!");
+				response.setErros(listaErros);
+				return ResponseEntity.badRequest().body(response);
+			}
+			
+			response.setData(listaTransportadora);
+			
+			return ResponseEntity.ok().body(response);
+			
+		} catch (Exception e) {
+			List<String> listaErros = new ArrayList<String>();
+			listaErros.add(e.getMessage());
+			response.setErros(listaErros);
+			return ResponseEntity.badRequest().body(response);
+		}
+		
+		
+		
+	}
+	
 	public ResponseEntity<Response> findAll(){
 		response = new Response();
 		try {
@@ -87,7 +114,7 @@ public class TransportadoraServiceImpl implements TransportadoraService {
 			
 			if (listaTransportadora.size() <= 0) {
 				List<String> listaErros = new ArrayList<String>();
-				listaErros.add("Ainda não existe nenhuma transportadora cadastrada!.");
+				listaErros.add("Ainda não existe nenhuma transportadora cadastrada!");
 				response.setErros(listaErros);
 				return ResponseEntity.badRequest().body(response);
 			}
