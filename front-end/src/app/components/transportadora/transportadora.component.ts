@@ -20,9 +20,6 @@ export class TransportadoraComponent implements OnInit {
 
   constructor(private tranportadoraService: TransportadoraService, public router: Router) { 
     this.getBuscarTodasTransportadoras();
-    /*this.getBuscarLocalizacaoTodasTransportadoras();
-    this.getBuscarMunicipioTodasTransportadoras();
-    this.getBuscarModalTodasTransportadoras();*/
   }
 
   ngOnInit(): void {
@@ -31,40 +28,36 @@ export class TransportadoraComponent implements OnInit {
   getBuscarTodasTransportadoras(){
     this.erro = null;
     this.listaTransportadora = [];
+    this.listaTransportadora.length = 0;
     this.listaUF = [];
+    this.listaUF.length = 0;
     this.listaMunicipio = [];
+    this.listaMunicipio.length = 0;
     this.listaModal = [];
+    this.listaModal.length = 0;
     this.tranportadoraService.getBuscarTodos().subscribe(
       (data: Transportadora) => {
         this.listaTransportadora = data['data'];
 
         for (let transportadora of this.listaTransportadora) {
           if (transportadora.uf != null){
-            let itemTag = new ItemTag();
-            itemTag.value=transportadora.uf;
-            itemTag.tipo="uf";
-            itemTag.display=transportadora.uf;
-            this.listaUF.push(itemTag);
+            this.addToListaParameters(transportadora.uf, 'uf', transportadora.descricaoUf);
           }
           if (transportadora.cidade != null){
-            let itemTag = new ItemTag();
-            itemTag.value=transportadora.cidade;
-            itemTag.tipo="cidade";
-            itemTag.display=transportadora.cidade;
-            this.listaMunicipio.push(itemTag);
+            this.addToListaParameters(transportadora.cidade, 'cidade', transportadora.cidade);
           }
           if (transportadora.modal != null){
-            let itemTag = new ItemTag();
-            itemTag.value=transportadora.modal.id.toString();
-            itemTag.tipo="modal";
-            itemTag.display=transportadora.modal.descricao;
-            this.listaModal.push(itemTag);
+            this.addToListaParameters(transportadora.modal.id.toString(), 'modal', transportadora.modal.descricao);
           }
         }
 
       },
       (error: any) => {
-        this.erro = error['error']['erros'];
+        if (error['error']['erros'] == null){
+          this.erro = 'Ocorreu um erro ao conectar com o servidor, favor, contate o suporte!';
+        }else {
+          this.erro = error['error']['erros'];
+        }
       }
     );
   }
@@ -74,9 +67,6 @@ export class TransportadoraComponent implements OnInit {
   }
 
   addToListaItemTag(value: string, tipo: string, display: string){
-    
-    console.log('1', this.listaItemTag);
-
     let jaExiste:boolean = false;
     for (let itemTag of this.listaItemTag) {
       if (itemTag.value == value && itemTag.tipo == tipo && itemTag.display == display){
@@ -93,6 +83,58 @@ export class TransportadoraComponent implements OnInit {
     }
 
     this.getBuscarPorParametros();
+  }
+
+  addToListaParameters(value: string, tipo: string, display: string){
+    let jaExiste:boolean = false;
+    let index: number;
+
+    if (tipo == 'uf'){
+      for (let uf of this.listaUF) {
+        if (uf.value == value && uf.tipo == tipo && uf.display == display){
+          jaExiste = true;
+          uf.quantidade = uf.quantidade + 1;
+        }
+      }
+      if (!jaExiste){
+        let itemTag = new ItemTag();
+        itemTag.value = value;
+        itemTag.tipo = tipo;
+        itemTag.display = display;
+        itemTag.quantidade = 1;
+        this.listaUF.push(itemTag);
+      }
+    } else if (tipo == 'cidade'){
+      for (let cidade of this.listaMunicipio) {
+        if (cidade.value == value && cidade.tipo == tipo && cidade.display == display){
+          jaExiste = true;
+          cidade.quantidade = cidade.quantidade + 1;
+        }
+      }
+      if (!jaExiste){
+        let itemTag = new ItemTag();
+        itemTag.value = value;
+        itemTag.tipo = tipo;
+        itemTag.display = display;
+        itemTag.quantidade = 1;
+        this.listaMunicipio.push(itemTag);
+      } 
+    } else if (tipo == 'modal'){
+      for (let modal of this.listaModal) {
+        if (modal.value == value && modal.tipo == tipo && modal.display == display){
+          jaExiste = true;
+          modal.quantidade = modal.quantidade + 1;
+        }
+      }
+      if (!jaExiste){
+        let itemTag = new ItemTag();
+        itemTag.value = value;
+        itemTag.tipo = tipo;
+        itemTag.display = display;
+        itemTag.quantidade = 1;
+        this.listaModal.push(itemTag);
+      } 
+    }
   }
 
   removeToListaItemTag($event){
@@ -128,25 +170,25 @@ export class TransportadoraComponent implements OnInit {
           if (nomes == null){
             nomes = 'nomes='+itemTag.value;
           }else{
-            nomes = nomes + 'nomes='+itemTag.value;
+            nomes = nomes + '&nomes='+itemTag.value;
           }
         } else if (itemTag.tipo == 'uf'){
           if (ufs == null){
             ufs = 'ufs='+itemTag.value;
           }else{
-            ufs = ufs + 'ufs='+itemTag.value;
+            ufs = ufs + '&ufs='+itemTag.value;
           }
         } else if (itemTag.tipo == 'cidade'){
           if (cidades == null){
             cidades = 'cidades='+itemTag.value;
           }else{
-            cidades = cidades + 'cidades='+itemTag.value;
+            cidades = cidades + '&cidades='+itemTag.value;
           }
         } else if (itemTag.tipo == 'modal'){
           if (modals == null){
             modals = 'modals='+itemTag.value;
           }else{
-            modals = modals + 'modals='+itemTag.value;
+            modals = modals + '&modals='+itemTag.value;
           }
         }
 
@@ -170,6 +212,7 @@ export class TransportadoraComponent implements OnInit {
           },
           (error: any) => {
             this.listaTransportadora = [];
+            this.listaTransportadora.length = 0;
             this.erro = error['error']['erros'];
           }
         );

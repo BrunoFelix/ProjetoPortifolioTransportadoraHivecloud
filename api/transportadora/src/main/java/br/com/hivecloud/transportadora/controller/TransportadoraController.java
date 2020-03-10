@@ -52,5 +52,10 @@ public class TransportadoraController {
 	public ResponseEntity<Response> findByParameters(@RequestParam List<String> nomes, @RequestParam List<String> ufs, @RequestParam List<String> cidades, @RequestParam List<Long> modals) {
 		return transportadoraService.findByParameters(nomes, ufs, cidades, modals);
 	}
+	
+	@GetMapping(value = "/buscarTodasUnidadesFederativas")
+	public ResponseEntity<Response> findByUnidadesFederativas() {
+		return transportadoraService.findByUnidadesFederativas();
+	}
 
 }

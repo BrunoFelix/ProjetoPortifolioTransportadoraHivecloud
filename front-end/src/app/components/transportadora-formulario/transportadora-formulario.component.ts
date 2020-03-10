@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Endereco } from 'src/app/models/endereco';
 import { Modal } from 'src/app/models/modal';
 import { ModalService } from 'src/app/services/modal.service';
+import { UnidadeFederativa } from 'src/app/models/unidadeFederativa';
 
 @Component({
   selector: 'app-transportadora-formulario',
@@ -14,7 +15,7 @@ import { ModalService } from 'src/app/services/modal.service';
 export class TransportadoraFormularioComponent implements OnInit {
 
   public transportadora: Transportadora = new Transportadora();
-  private modal: Modal = new Modal();
+  public listaUnidadeFederativa: Array<UnidadeFederativa> = [];
   public listaModal: Array<Modal> = [];
   private endereco: Endereco = new Endereco();
   private erro: string;
@@ -26,8 +27,9 @@ export class TransportadoraFormularioComponent implements OnInit {
               private modalService: ModalService, 
               public router: Router, 
               public activatedRoute: ActivatedRoute) {
-    this.transportadora.modal = this.modal;
+    this.transportadora.modal = new Modal();
     this.getBuscarTodosModal();
+    this.getBuscarTodasUnidadesFederativas();
    }
 
   ngOnInit(): void {
@@ -62,7 +64,7 @@ export class TransportadoraFormularioComponent implements OnInit {
     );
   }
 
-  localizarCep(){
+  getDadosCep(){
     this.isLoadingResults = true;
     this.tranportadoraService.getEnderecoViaCepByCep(this.transportadora.cep).subscribe(
       (data: Endereco) => {
@@ -75,6 +77,20 @@ export class TransportadoraFormularioComponent implements OnInit {
       },
       (error: any) => {
         this.erro = error['erro'];
+        this.isLoadingResults = false;
+      }
+    );
+  }
+
+  getBuscarTodasUnidadesFederativas(){
+    this.isLoadingResults = true;
+    this.tranportadoraService.getBuscarTodasUnidadesFederativas().subscribe(
+      (data: UnidadeFederativa) => {
+        this.listaUnidadeFederativa = data['data'];
+        this.isLoadingResults = false;
+      },
+      (error: any) => {
+        this.erro = error['erros'];
         this.isLoadingResults = false;
       }
     );

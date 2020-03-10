@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -55,6 +56,9 @@ public class Transportadora {
 	@NotBlank(message= "Campo UF não pode estar vazio")
 	private String uf;
 	
+	@Transient
+	private String descricaoUf;
+
 	@NotNull(message = "Por favor, preencha o campo Cidade")
 	@NotBlank(message= "Campo Cidade não pode estar vazio")
 	private String cidade;
@@ -193,6 +197,11 @@ public class Transportadora {
 		this.caminhoLogo = caminhoLogo;
 	}
 	
-	
+	public String getDescricaoUf() {
+		return descricaoUf;
+	}
 
+	public void setDescricaoUf(String descricaoUf) {
+		this.descricaoUf = descricaoUf;
+	}
 }

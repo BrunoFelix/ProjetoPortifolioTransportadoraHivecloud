@@ -1,6 +1,7 @@
 package br.com.hivecloud.transportadora.service.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.hivecloud.transportadora.model.entity.Transportadora;
+import br.com.hivecloud.transportadora.model.entity.Uf;
+import br.com.hivecloud.transportadora.model.enums.UnidadeFederativa;
 import br.com.hivecloud.transportadora.model.response.Response;
 import br.com.hivecloud.transportadora.repository.TransportadoraRepository;
 import br.com.hivecloud.transportadora.service.TransportadoraService;
@@ -90,6 +93,10 @@ public class TransportadoraServiceImpl implements TransportadoraService {
 				listaErros.add("Nenhuma transportadora encontrada com os parâmetros informados!");
 				response.setErros(listaErros);
 				return ResponseEntity.badRequest().body(response);
+			}else {
+				for (Transportadora transportadora : listaTransportadora) {
+					transportadora.setDescricaoUf(UnidadeFederativa.fromSigla(transportadora.getUf()).nome());
+				}
 			}
 			
 			response.setData(listaTransportadora);
@@ -117,6 +124,10 @@ public class TransportadoraServiceImpl implements TransportadoraService {
 				listaErros.add("Ainda não existe nenhuma transportadora cadastrada!");
 				response.setErros(listaErros);
 				return ResponseEntity.badRequest().body(response);
+			}else {
+				for (Transportadora transportadora : listaTransportadora) {
+					transportadora.setDescricaoUf(UnidadeFederativa.fromSigla(transportadora.getUf()).nome());
+				}
 			}
 			
 			response.setData(listaTransportadora);
@@ -141,10 +152,39 @@ public class TransportadoraServiceImpl implements TransportadoraService {
 				response.setErros(listaErros);
 				return ResponseEntity.badRequest().body(response);
 			}
-			
 			response.setData(transportadora);
 			
 			return ResponseEntity.ok().body(response);
+		} catch (Exception e) {
+			List<String> listaErros = new ArrayList<String>();
+			listaErros.add(e.getMessage());
+			response.setErros(listaErros);
+			return ResponseEntity.badRequest().body(response);
+		}
+	}
+	
+	public ResponseEntity<Response> findByUnidadesFederativas(){
+		response = new Response();
+		try {
+			List<Uf> listaUf = new ArrayList<>();
+			for (UnidadeFederativa unidadeFederativa : UnidadeFederativa.values()) {
+				Uf uf = new Uf();
+				uf.setNome(unidadeFederativa.nome());
+				uf.setSigla(unidadeFederativa.sigla());
+				listaUf.add(uf);
+			}
+			
+			if (listaUf.size() <= 0) {
+				List<String> listaErros = new ArrayList<String>();
+				listaErros.add("Ainda não existe nenhuma UF cadastrada!");
+				response.setErros(listaErros);
+				return ResponseEntity.badRequest().body(response);
+			}
+			
+			response.setData(listaUf);
+			
+			return ResponseEntity.ok().body(response);
+			
 		} catch (Exception e) {
 			List<String> listaErros = new ArrayList<String>();
 			listaErros.add(e.getMessage());

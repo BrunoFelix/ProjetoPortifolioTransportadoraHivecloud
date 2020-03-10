@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Transportadora } from '../models/transportadora';
 import { normalizeGenFileSuffix } from '@angular/compiler/src/aot/util';
+import { UnidadeFederativa } from '../models/unidadeFederativa';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,10 @@ export class TransportadoraService {
 
   getBuscarPorId(id: number){
     return this.httpClient.get<Transportadora>(environment.apiUrl + this.serviceName + '/buscarPorId/' + id);
+  }
+
+  getBuscarTodasUnidadesFederativas(){
+    return this.httpClient.get<UnidadeFederativa>(environment.apiUrl + this.serviceName + '/buscarTodasUnidadesFederativas/');
   }
 
   postDeletarPorId(id: number){

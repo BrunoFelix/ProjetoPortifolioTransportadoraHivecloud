@@ -21,4 +21,6 @@ public interface TransportadoraService {
 	
 	public ResponseEntity<Response> findByParameters(List<String> nomes, List<String> ufs, List<String> cidades, List<Long> modals);
 	
+	public ResponseEntity<Response> findByUnidadesFederativas();
+	
 }

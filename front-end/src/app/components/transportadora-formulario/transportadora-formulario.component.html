@@ -54,14 +54,14 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label text-lg-right">CEP:</label>
                 <div class="col-sm-4">
-                    <input type="text" class="form-control" id="CEP" (change)="localizarCep()" name="cep" [(ngModel)]="transportadora.cep">
+                    <input type="text" class="form-control" id="CEP" (change)="getDadosCep()" name="cep" [(ngModel)]="transportadora.cep">
                 </div>    
                 <label class="col-sm-2 col-form-label text-lg-right">Estado:</label>
                 <div class="col-sm-4">
                     <select class="form-control" id="uf" name="uf" [(ngModel)]="transportadora.uf">
-                        <option value="PE">PE</option>
-                        <option value="AL">AL</option>
-                        <option value="MA">MA</option>
+                        <option *ngFor="let unidadeFederativa of listaUnidadeFederativa" value= {{unidadeFederativa.sigla}}>
+                            {{unidadeFederativa.sigla}}
+                        </option>
                     </select>
                 </div> 
             </div>

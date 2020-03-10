@@ -10,6 +10,7 @@ export class Transportadora {
     public whatsapp: string;
     public cep: string;
     public uf: string;
+    public descricaoUf: string;
     public cidade: string;
     public bairro: string;
     public rua: string;
