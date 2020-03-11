@@ -6,7 +6,7 @@
         </div>
 
         <div class="row">
-            <div class="col-3 py-3 px-lg-5 border bg-light">
+            <div class="col-3">
                 <h4>Transportadoras</h4>
                 <p>{{listaTransportadora.length}} Resultado(s)</p>
                 <tag-input [ngModel]="listaItemTag" [hideForm]="true" [identifyBy]="'value'" [displayBy]="'display'" name="tagInput" (onRemove)="removeToListaItemTag($event)"></tag-input>
@@ -39,22 +39,22 @@
                                 <img src="../../../assets/image_transportadora_1.png" class="card-img p-2" alt="...">
                             </div>
                             <div class="col-md-4">
-                                <div class="card-body">
+                                <div class="card-body pt-3 pl-1 pr-1 pb-3">
                                     <h5 class="card-title">
-                                        <a (click)="chamaTelaVisualizar(transportadora.id)"> {{transportadora.nome}} </a>
+                                        <a class="h6" (click)="chamaTelaVisualizar(transportadora.id)"> {{transportadora.nome}} </a>
                                     </h5>
-                                    <p class="card-text">{{transportadora.empresa}}</p>
+                                    <p class="card-text h6">{{transportadora.empresa}}</p>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{transportadora.telefone}} {{transportadora.celular}}</h5>
-                                    <p class="card-text">{{transportadora.email}}</p>
+                                <div class="card-body pt-3 pl-1 pr-1 pb-3">
+                                    <h5 class="card-title h6">{{transportadora.telefone}} {{transportadora.celular}}</h5>
+                                    <p class="card-text h6">{{transportadora.email}}</p>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="card-body">
-                                <p class="card-title">Fale agora: {{transportadora.whatsapp}}</p>
+                                <div class="card-body pt-3 pl-1 pr-1 pb-3">
+                                <p class="card-title h6 font-size-10-pt"><img src="../../../assets/icon_whatsapp.png" alt="..."> Fale agora: {{transportadora.whatsapp}}</p>
                                 </div>
                             </div>
                         </div>

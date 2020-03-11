@@ -1,6 +1,8 @@
 package br.com.hivecloud.transportadora.model.entity;
 
-public class Uf {
+import java.io.Serializable;
+
+public class Uf implements Serializable {
 
 	private String nome;
 	private String sigla;

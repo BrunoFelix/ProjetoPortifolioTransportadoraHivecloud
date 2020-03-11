@@ -15,6 +15,6 @@ export class Transportadora {
     public bairro: string;
     public rua: string;
     public numero: string;
-    public caminhoLogo: string;
+    public imagem: any;
     public modal: Modal;
 }

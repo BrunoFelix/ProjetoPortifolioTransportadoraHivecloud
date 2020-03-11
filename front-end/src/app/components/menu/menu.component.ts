@@ -13,6 +13,9 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Metódo responsável por chamar a tela de inserção de transportadoras
+   */
   chamarTelaInserir(){
     this.router.navigate(['/transportadora/inserir']);
   }

@@ -11,6 +11,9 @@ import { ItemTag } from 'src/app/models/itemTag';
 })
 export class TransportadoraComponent implements OnInit {
 
+  /**
+   * variáveis
+   */
   public listaTransportadora: Array<Transportadora> = [];
   public erro: string;
   public listaItemTag: Array<ItemTag> = [];
@@ -19,12 +22,16 @@ export class TransportadoraComponent implements OnInit {
   public listaModal: Array<ItemTag> = [];
 
   constructor(private tranportadoraService: TransportadoraService, public router: Router) { 
+    //buscando todas as transportadoras da API ao acessar a tela
     this.getBuscarTodasTransportadoras();
   }
 
   ngOnInit(): void {
   }
 
+  /**
+   * Metódo que chama o serviço que retorna todos as transportadoras da API
+   */
   getBuscarTodasTransportadoras(){
     this.erro = null;
     this.listaTransportadora = [];
@@ -39,6 +46,7 @@ export class TransportadoraComponent implements OnInit {
       (data: Transportadora) => {
         this.listaTransportadora = data['data'];
 
+        //verificando as informações dos objetos pesquisados para montar uma lista de filtros
         for (let transportadora of this.listaTransportadora) {
           if (transportadora.uf != null){
             this.addToListaParameters(transportadora.uf, 'uf', transportadora.descricaoUf);
@@ -62,11 +70,18 @@ export class TransportadoraComponent implements OnInit {
     );
   }
 
+ /**
+   * Metódo responsável por chamar a tela de editar/excluir transportadoras
+   */
   chamaTelaVisualizar(id: number){
     this.router.navigate(['/transportadora/'+id+'/visualizar']);
   }
 
+  /**
+   * Metódo responsável por adicionar os filtros escolhidos do component tag
+   */
   addToListaItemTag(value: string, tipo: string, display: string){
+    //verificando se a tag já existe para evitar duplicidade
     let jaExiste:boolean = false;
     for (let itemTag of this.listaItemTag) {
       if (itemTag.value == value && itemTag.tipo == tipo && itemTag.display == display){
@@ -82,9 +97,13 @@ export class TransportadoraComponent implements OnInit {
       this.listaItemTag.push(itemTag);
     }
 
+    //buscando as transportadoras de acordo com os filtros escolhidos
     this.getBuscarPorParametros();
   }
 
+  /**
+   * Metódo responsável por montar a lista de filtros ao qual o usuário poderá escolher
+   */
   addToListaParameters(value: string, tipo: string, display: string){
     let jaExiste:boolean = false;
     let index: number;
@@ -137,6 +156,9 @@ export class TransportadoraComponent implements OnInit {
     }
   }
 
+  /**
+   * Metódo responsável por remover os filtros escolhidos do component tag
+   */
   removeToListaItemTag($event){
 
     for(var i = 0; i < this.listaItemTag.length; i++)
@@ -147,17 +169,13 @@ export class TransportadoraComponent implements OnInit {
       }
     }
 
-    /*this.listaItemTag.forEach( (item, index) => {
-      alert('a');
-    });*/
-
-    //this.listaItemTag = [];
-
-    console.log('2', this.listaItemTag);
-
+    //buscando as transportadoras de acordo com os filtros escolhidos
     this.getBuscarPorParametros();
   }
 
+  /**
+   * Metódo que chama o serviço que retorna as transportadoras da API de acordo com o filtro escolhido
+   */
   getBuscarPorParametros(){
     let nomes: string;
     let ufs: string;

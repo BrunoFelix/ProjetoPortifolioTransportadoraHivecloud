@@ -15,6 +15,7 @@ Para buildar e executar a aplicação (API e Front-end) será necessário:
 * 	[Angular CLI](https://angular.io/cli) - Command-line interface tool that you use to initialize, develop, scaffold, and maintain Angular applications.
 * 	[Bootstrap](https://getbootstrap.com/docs/4.3/getting-started/download/) - Open-source toolkit for developing with HTML, CSS, and JS.
 *   [ngx-chips](https://github.com/Gbuomprisco/ngx-chips) - Component for Angular 4 or greater. Design and API are blandly inspired by Angular Material's md-chips. Formerly called ng2-tag-input.
+*   [ngx-mask](https://www.npmjs.com/package/ngx-mask) - Component for Angular 4 or greater. Used to define field masks.
 
 ## Documentação
 * 	[Swagger](http://localhost:8088/swagger-ui.html) - Documentação dos serviços disponibilizado pela API.

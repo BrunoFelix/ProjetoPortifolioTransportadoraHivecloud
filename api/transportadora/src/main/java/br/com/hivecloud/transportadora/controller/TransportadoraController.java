@@ -24,17 +24,17 @@ public class TransportadoraController {
 	private TransportadoraService transportadoraService;
 	
 	@PostMapping("/inserir")
-	public ResponseEntity<Response> save(@RequestBody Transportadora transportadora) throws Exception {
+	public ResponseEntity<Response> save(@RequestBody Transportadora transportadora) {
 		return transportadoraService.save(transportadora);
 	}
 	
 	@PostMapping("/alterar")
-	public ResponseEntity<Response> update(@RequestBody Transportadora transportadora) throws Exception {
+	public ResponseEntity<Response> update(@RequestBody Transportadora transportadora) {
 		return transportadoraService.update(transportadora);
 	}
 	
 	@PostMapping("/excluir")
-	public ResponseEntity<Response> deleteById(@RequestBody String id) throws Exception {
+	public ResponseEntity<Response> deleteById(@RequestBody String id) {
 		return transportadoraService.deleteById(Long.valueOf(id));
 	}
 	
