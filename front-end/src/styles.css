@@ -184,3 +184,7 @@
       transform: rotate(360deg);
     }
   }
+
+  .font-size-10-pt{
+    font-size: 11pt;
+  }

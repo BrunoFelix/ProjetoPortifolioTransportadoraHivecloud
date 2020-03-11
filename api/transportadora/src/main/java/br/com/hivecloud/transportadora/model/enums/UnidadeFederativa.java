@@ -66,7 +66,7 @@ public enum UnidadeFederativa implements Serializable{
 	        return uf;
 	      }
 	    }
-	    throw new IllegalArgumentException(nomeUf);
+		return null;
 	  }
 
 	  /**
@@ -81,7 +81,7 @@ public enum UnidadeFederativa implements Serializable{
 	        return uf;
 	      }
 	    }
-	    throw new IllegalArgumentException(sigla);
+	    return null;
 	  }
 
 	  /**
@@ -96,7 +96,7 @@ public enum UnidadeFederativa implements Serializable{
 	        return uf;
 	      }
 	    }
-	    throw new IllegalArgumentException(capital);
+	    return null;
 	  }
 
 	  /**

@@ -1,5 +1,7 @@
 package br.com.hivecloud.transportadora.model.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +12,12 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="modal")
-public class Modal {
+public class Modal implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="idModal", nullable = false, unique = true)

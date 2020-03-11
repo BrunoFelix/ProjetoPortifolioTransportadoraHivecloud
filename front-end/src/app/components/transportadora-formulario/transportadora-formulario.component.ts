@@ -14,11 +14,14 @@ import { UnidadeFederativa } from 'src/app/models/unidadeFederativa';
 })
 export class TransportadoraFormularioComponent implements OnInit {
 
+  /**
+   * variáveis
+   */
   public transportadora: Transportadora = new Transportadora();
   public listaUnidadeFederativa: Array<UnidadeFederativa> = [];
   public listaModal: Array<Modal> = [];
+  public listaErro: Array<string> = [];
   private endereco: Endereco = new Endereco();
-  private erro: string;
   public acao: string = "Cadastrar";
   public isLoadingResults: boolean = false;
   public isAceitoTermo: boolean = false;
@@ -28,21 +31,25 @@ export class TransportadoraFormularioComponent implements OnInit {
               public router: Router, 
               public activatedRoute: ActivatedRoute) {
     this.transportadora.modal = new Modal();
+    //buscando todos os registros Modal
     this.getBuscarTodosModal();
+    //buscando todos os registros de uf
     this.getBuscarTodasUnidadesFederativas();
    }
 
   ngOnInit(): void {
+    //Se a chamada passa um ID como parametro, logo a tela está sendo chamada em modo alteração
     this.activatedRoute.params.subscribe( parametros => {
       if (parametros['id']) {
         this.isLoadingResults = true;
+        //atualizando titulo da página
         this.acao = "Atualizar / Deletar Transportadora";
         this.tranportadoraService.getBuscarPorId(parametros['id']).subscribe(
           (data: Transportadora) => {
               this.transportadora = data['data'];
               this.isLoadingResults = false;
             }, (error: any) => {
-              this.erro = error['erro'];
+              this.listaErro.push(error['error']['erros']);
               this.isLoadingResults = false;
             }
           );
@@ -50,7 +57,11 @@ export class TransportadoraFormularioComponent implements OnInit {
     });
   }
 
+  /**
+   * Metódo que chama o serviço que retorna todos os modals da API
+   */
   getBuscarTodosModal(){
+    this.limparErros();
     this.isLoadingResults = true;
     this.modalService.getBuscarTodos().subscribe(
       (data: Modal) => {
@@ -58,13 +69,17 @@ export class TransportadoraFormularioComponent implements OnInit {
         this.isLoadingResults = false;
       },
       (error: any) => {
-        this.erro = error['erros'];
+        this.listaErro.push(error['error']['erros']);
         this.isLoadingResults = false;
       }
     );
   }
 
+  /**
+   * Metódo que chama o serviço que retorna consulta o CEP digitado na API ViaCEP
+   */
   getDadosCep(){
+    this.limparErros();
     this.isLoadingResults = true;
     this.tranportadoraService.getEnderecoViaCepByCep(this.transportadora.cep).subscribe(
       (data: Endereco) => {
@@ -76,13 +91,17 @@ export class TransportadoraFormularioComponent implements OnInit {
         this.isLoadingResults = false;
       },
       (error: any) => {
-        this.erro = error['erro'];
+        this.listaErro.push(error['error']['erros']);
         this.isLoadingResults = false;
       }
     );
   }
 
+  /**
+   * Metódo que chama o serviço que retorna todas as UF da API
+   */
   getBuscarTodasUnidadesFederativas(){
+    this.limparErros();
     this.isLoadingResults = true;
     this.tranportadoraService.getBuscarTodasUnidadesFederativas().subscribe(
       (data: UnidadeFederativa) => {
@@ -90,7 +109,7 @@ export class TransportadoraFormularioComponent implements OnInit {
         this.isLoadingResults = false;
       },
       (error: any) => {
-        this.erro = error['erros'];
+        this.listaErro.push(error['error']['erros']);
         this.isLoadingResults = false;
       }
     );
@@ -100,21 +119,35 @@ export class TransportadoraFormularioComponent implements OnInit {
     alert(files.item(0).name);
   }
 
+  /**
+   * Metódo que chama o serviço de inserção da transportadora na API
+   */
   postInserir(){
-    this.isLoadingResults = true;
-    this.tranportadoraService.postInserir(this.transportadora).subscribe(
-      (data: Transportadora) => {
-          this.transportadora = data;
-          this.isLoadingResults = false;
-          this.router.navigate(['/transportadora']);
-        }, (error: any) => {
-          this.erro = error['erro'];
-          this.isLoadingResults = false;
-        }
-      );
+    this.limparErros();
+    if (!this.isAceitoTermo){
+      this.listaErro.push("É necessário aceitar os termos antes de prosseguir!")
+    }else{
+      this.isLoadingResults = true;
+      this.tranportadoraService.postInserir(this.transportadora).subscribe(
+        (data: Transportadora) => {
+            this.transportadora = data;
+            this.isLoadingResults = false;
+            this.router.navigate(['/transportadora']);
+          }, (error: any) => {
+            console.log('1', error);
+            this.listaErro.push(error['error']['erros']);
+            console.log('2', this.listaErro);
+            this.isLoadingResults = false;
+          }
+        );
+    }
   }
 
+  /**
+   * Metódo que chama o serviço de alteração da transportadora na API
+   */
   postAlterar(){
+    this.limparErros();
     this.isLoadingResults = true;
     this.tranportadoraService.postAlterar(this.transportadora).subscribe(
       (data: Transportadora) => {
@@ -122,14 +155,18 @@ export class TransportadoraFormularioComponent implements OnInit {
           this.isLoadingResults = false;
           this.router.navigate(['/transportadora']);
         }, (error: any) => {
-          this.erro = error['erro'];
+          this.listaErro.push(error['error']['erros']);
           this.isLoadingResults = false;
         }
       );
     this.isLoadingResults = false;
   }
 
+  /**
+   * Metódo que chama o serviço de exclusão da transportadora na API
+   */
   postDeletarPorId(id: number){
+    this.limparErros();
     this.isLoadingResults = true;
     this.tranportadoraService.postDeletarPorId(id).subscribe(
       (data: Transportadora) => {
@@ -137,10 +174,24 @@ export class TransportadoraFormularioComponent implements OnInit {
         this.isLoadingResults = false;
         this.router.navigate(['/transportadora']);
       }, (error: any) => {
-        this.erro = error['erro'];
+        this.listaErro.push(error['error']['erros']);
         this.isLoadingResults = false;
       }
     );
   }
 
+  /**
+   * Método que limpa a variável que exibe os erros
+   */
+  limparErros(){
+    this.listaErro = [];
+    this.listaErro.length = 0;
+  }
+
+  /**
+   * Metódo para verificar se o termo foi preenchido
+   */
+  changeTermo($event){
+    this.isAceitoTermo = $event['target']['checked'];
+  }
 }
