@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.hivecloud.transportadora.model.entity.Transportadora;
 import br.com.hivecloud.transportadora.model.response.Response;
@@ -24,17 +25,17 @@ public class TransportadoraController {
 	private TransportadoraService transportadoraService;
 	
 	@PostMapping("/inserir")
-	public ResponseEntity<Response> save(@RequestBody Transportadora transportadora) throws Exception {
+	public ResponseEntity<Response> save(@RequestBody Transportadora transportadora) {
 		return transportadoraService.save(transportadora);
 	}
 	
 	@PostMapping("/alterar")
-	public ResponseEntity<Response> update(@RequestBody Transportadora transportadora) throws Exception {
+	public ResponseEntity<Response> update(@RequestBody Transportadora transportadora) {
 		return transportadoraService.update(transportadora);
 	}
 	
 	@PostMapping("/excluir")
-	public ResponseEntity<Response> deleteById(@RequestBody String id) throws Exception {
+	public ResponseEntity<Response> deleteById(@RequestBody String id) {
 		return transportadoraService.deleteById(Long.valueOf(id));
 	}
 	
@@ -51,6 +52,11 @@ public class TransportadoraController {
 	@GetMapping(value = "/buscarPorParametros")
 	public ResponseEntity<Response> findByParameters(@RequestParam List<String> nomes, @RequestParam List<String> ufs, @RequestParam List<String> cidades, @RequestParam List<Long> modals) {
 		return transportadoraService.findByParameters(nomes, ufs, cidades, modals);
+	}
+	
+	@GetMapping(value = "/buscarTodasUnidadesFederativas")
+	public ResponseEntity<Response> findByUnidadesFederativas() {
+		return transportadoraService.findByUnidadesFederativas();
 	}
 
 }

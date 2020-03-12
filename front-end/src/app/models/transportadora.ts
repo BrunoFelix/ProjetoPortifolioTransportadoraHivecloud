@@ -1,6 +1,6 @@
 import { Modal } from './modal';
 
-export class Transportadora {
+export class Transportadora{
     public id: number;
     public email: string;
     public nome: string;
@@ -10,10 +10,16 @@ export class Transportadora {
     public whatsapp: string;
     public cep: string;
     public uf: string;
+    public descricaoUf: string;
     public cidade: string;
     public bairro: string;
     public rua: string;
     public numero: string;
-    public caminhoLogo: string;
+    public imagem: any;
     public modal: Modal;
+
+    deserialize(input: any) {
+        Object.assign(this, input);
+        return this;
+    }
 }
