@@ -26,6 +26,18 @@ export class TransportadoraFormularioComponent implements OnInit {
   public isLoadingResults: boolean = false;
   public isAceitoTermo: boolean = false;
 
+  /**
+   * variáveis da imagem
+   */
+  selectedFile: File;
+  retrievedImage: any;
+  base64Data: any;
+  retrieveResonse: any;
+  message: string;
+  imageName: any;
+  uploadImageData: any;
+  reader = new FileReader();
+
   constructor(private tranportadoraService: TransportadoraService, 
               private modalService: ModalService, 
               public router: Router, 
@@ -134,9 +146,10 @@ export class TransportadoraFormularioComponent implements OnInit {
             this.isLoadingResults = false;
             this.router.navigate(['/transportadora']);
           }, (error: any) => {
-            console.log('1', error);
-            this.listaErro.push(error['error']['erros']);
-            console.log('2', this.listaErro);
+            for(var i = 0; i < error['error']['erros'].length; i++)
+            { 
+              this.listaErro.push(error['error']['erros'][i]);
+            }
             this.isLoadingResults = false;
           }
         );
@@ -194,4 +207,18 @@ export class TransportadoraFormularioComponent implements OnInit {
   changeTermo($event){
     this.isAceitoTermo = $event['target']['checked'];
   }
+
+  /**
+   * Metódo que carrega a imagem por upload
+   */
+  onFileChanged($event) {
+    this.selectedFile = $event.target.files[0];
+    console.log('1', this.selectedFile);
+
+    this.uploadImageData = new FormData();
+    this.uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name);
+    this.reader.readAsDataURL(this.selectedFile);
+    this.transportadora.imagem = this.reader.result.toString();
+  }
+
 }

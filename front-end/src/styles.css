@@ -35,8 +35,6 @@
 }
 
 .avatar-upload .avatar-edit input + label:after {
-    content: "\f040";
-    font-family: 'FontAwesome';
     color: #757575;
     position: absolute;
     top: 10px;
@@ -185,6 +183,11 @@
     }
   }
 
-  .font-size-10-pt{
+  .font-size-9-pt{
     font-size: 11pt;
+  }
+
+  .cadastro_logo_empresa{
+    width: 200px;
+    height: 200px;
   }
