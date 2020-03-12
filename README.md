@@ -1,5 +1,5 @@
 # ProjetoPortifolioTransportadoraHivecloud
-Neste projeto será desenvolvido um pequeno sistema para que transportadoras possam se cadastrar para que a mesma possa aparecer na listagem principal do sistema, onde aparece todas as transportadoras cadastradas, e elas podem ser filtradas, caso clique no nome da transportadora, pode alterar os seus dados e também deletar a transportadora. Linguagem de programação Java com Spring Boot e front-end Angular 8.
+Neste projeto será desenvolvido um pequeno sistema relacionado a transportadoras, onde será possível cadastrar, alterar, excluir e visualizar com ou sem filtros. Linguagem de programação Java com Spring Boot e front-end Angular 8.
 
 ## Pré-requisitos
 
@@ -93,4 +93,5 @@ O projeto foi criado e desenvolvido seguindo a estrutura descrita abaixo:
 
 ## Liçensa
 * 	Apache License 2.0. Visualizar arquivo de [LICENSE](https://github.com/BrunoFelix/ProjetoPortifolioTransportadoraHivecloud/blob/master/LICENSE_APACHE).
-* 	The MIT License. Visualizar arquivo de [LICENSE](https://github.com/codecentric/LICENSE_MIT).
+
+* 	The MIT License. Visualizar arquivo de [LICENSE](https://github.com/BrunoFelix/ProjetoPortifolioTransportadoraHivecloud/blob/master/LICENSE_MIT).
