@@ -4,63 +4,60 @@
         <div class="col-12" *ngIf="erro!=null">
             <h5 class="row justify-content-md-center">{{erro}}</h5>
         </div>
-
-        <div class="row">
-            <div class="col-3">
-                <h4>Transportadoras</h4>
-                <p>{{listaTransportadora.length}} Resultado(s)</p>
-                <tag-input [ngModel]="listaItemTag" [hideForm]="true" [identifyBy]="'value'" [displayBy]="'display'" name="tagInput" (onRemove)="removeToListaItemTag($event)"></tag-input>
-                <hr/>
-                <div class="form-group">
-                    <h5>Nome</h5>
-                    <input type="text" class="form-control" #inputstring id="nome" (keyup.enter)="addToListaItemTag(inputstring.value, 'nome', inputstring.value)">
-                </div>
-                <h5>Localização (UFs)</h5>
-                <div *ngFor="let uf of listaUF">
-                    <a (click)="addToListaItemTag(uf.value, uf.tipo, uf.display)">{{uf.display}} ({{uf.quantidade}})</a>
-                </div>
-                <br>
-                <h5>Localização (Municípios)</h5>
-                <div *ngFor="let municipio of listaMunicipio">
-                    <a (click)="addToListaItemTag(municipio.value, municipio.tipo, municipio.display)">{{municipio.display}} ({{municipio.quantidade}})</a>
-                </div>
-                <br>
-                <h5>Modal</h5>
-                <div *ngFor="let modal of listaModal">
-                    <a (click)="addToListaItemTag(modal.value, modal.tipo, modal.display)">{{modal.display}} ({{modal.quantidade}})</a>
-                </div>
-                <br>
+        <div class="col-lg-3">
+            <h4>Transportadoras</h4>
+            <p>{{listaTransportadora.length}} Resultado(s)</p>
+            <tag-input [ngModel]="listaItemTag" [hideForm]="true" [identifyBy]="'value'" [displayBy]="'display'" name="tagInput" (onRemove)="removeToListaItemTag($event)"></tag-input>
+            <hr/>
+            <div class="form-group">
+                <h5>Nome</h5>
+                <input type="text" class="form-control" #inputstring id="nome" (keyup.enter)="addToListaItemTag(inputstring.value, 'nome', inputstring.value)">
             </div>
-            <div class="col-9">
-                <div class="col-md-12" *ngFor="let transportadora of listaTransportadora; let indexTransportadora = index">
-                    <div class="card mb-3">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col-md-1">
-                                <img src="../../../assets/image_transportadora_1.png" class="card-img p-2" alt="...">
+            <h5>Localização (UFs)</h5>
+            <div *ngFor="let uf of listaUF">
+                <a (click)="addToListaItemTag(uf.value, uf.tipo, uf.display)">{{uf.display}} ({{uf.quantidade}})</a>
+            </div>
+            <br>
+            <h5>Localização (Municípios)</h5>
+            <div *ngFor="let municipio of listaMunicipio">
+                <a (click)="addToListaItemTag(municipio.value, municipio.tipo, municipio.display)">{{municipio.display}} ({{municipio.quantidade}})</a>
+            </div>
+            <br>
+            <h5>Modal</h5>
+            <div *ngFor="let modal of listaModal">
+                <a (click)="addToListaItemTag(modal.value, modal.tipo, modal.display)">{{modal.display}} ({{modal.quantidade}})</a>
+            </div>
+            <br>
+        </div>
+        <div class="col-9 pl-0 pr-0">
+            <div class="col-md-12 pl-0 pr-0" *ngFor="let transportadora of listaTransportadora; let indexTransportadora = index">
+                <div class="card mb-3">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-md-1">
+                            <img [src]="transportadora.imagem" class="card-img p-2" alt="...">
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card-body pt-3 pl-1 pr-1 pb-3">
+                                <h5 class="card-title">
+                                    <a class="h6" (click)="chamaTelaVisualizar(transportadora.id)"> {{transportadora.nome}} </a>
+                                </h5>
+                                <p class="card-text h6">{{transportadora.empresa | mask: '00.000.000/0000-00'}}</p>
                             </div>
-                            <div class="col-md-4">
-                                <div class="card-body pt-3 pl-1 pr-1 pb-3">
-                                    <h5 class="card-title">
-                                        <a class="h6" (click)="chamaTelaVisualizar(transportadora.id)"> {{transportadora.nome}} </a>
-                                    </h5>
-                                    <p class="card-text h6">{{transportadora.empresa}}</p>
-                                </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card-body pt-3 pl-1 pr-1 pb-3">
+                                <p class="card-title h6">{{transportadora.telefone | mask: '(00) 0000-0000'}} {{transportadora.celular | mask: '(00) 00000-0000'}}</p>
+                                <p class="card-text h6">{{transportadora.email}}</p>
                             </div>
-                            <div class="col-md-4">
-                                <div class="card-body pt-3 pl-1 pr-1 pb-3">
-                                    <h5 class="card-title h6">{{transportadora.telefone}} {{transportadora.celular}}</h5>
-                                    <p class="card-text h6">{{transportadora.email}}</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card-body pt-3 pl-1 pr-1 pb-3">
-                                <p class="card-title h6 font-size-10-pt"><img src="../../../assets/icon_whatsapp.png" alt="..."> Fale agora: {{transportadora.whatsapp}}</p>
-                                </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card-body pt-3 pl-1 pr-1 pb-3">
+                            <p class="card-title h6 font-size-10-pt"><img src="../../../assets/icon_whatsapp.png" alt="..."> Fale agora: <br> {{transportadora.whatsapp | mask: '(00) 00000-0000'}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>       
     </div>
 </div>

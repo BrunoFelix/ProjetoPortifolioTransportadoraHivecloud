@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -25,18 +26,70 @@ public class TransportadoraRepositoryTest {
     private TransportadoraRepository transportadoraRep;
     
     @Test
-    public void pesquisarTransportadoraPorNome() {
+    public void testPesquisarTransportadoraPorNomes() {
     	List<String> nomes = new ArrayList<>();
     	List<String> ufs = new ArrayList<>();
     	List<String> cidades = new ArrayList<>();
     	List<Long> modals = new ArrayList<>();
     	
-    	nomes.add("bruno felix");
+    	nomes.add("Diggi cargas aereas");
+    	nomes.add("Pavati e Pirula - Rodoáereo");
     	
     	List<Transportadora> listaPesquisa = transportadoraRep.findByParameters(nomes, ufs, cidades, modals);
     	
-    	assertThat(listaPesquisa.size()).isEqualTo(1);
+    	assertThat(listaPesquisa.size()).isEqualTo(2);
     }
+    
+    @Test
+    public void testPesquisarTransportadoraPorUFs() {
+    	List<String> nomes = new ArrayList<>();
+    	List<String> ufs = new ArrayList<>();
+    	List<String> cidades = new ArrayList<>();
+    	List<Long> modals = new ArrayList<>();
+    	
+    	ufs.add("PE");
+    	ufs.add("AM");
+    	
+    	List<Transportadora> listaPesquisa = transportadoraRep.findByParameters(nomes, ufs, cidades, modals);
+    	
+    	assertThat(listaPesquisa.size()).isEqualTo(2);
+    }
+    
+    @Test
+    public void testPesquisarTransportadoraPorCidade() {
+    	List<String> nomes = new ArrayList<>();
+    	List<String> ufs = new ArrayList<>();
+    	List<String> cidades = new ArrayList<>();
+    	List<Long> modals = new ArrayList<>();
+    	
+    	cidades.add("Recife");
+    	cidades.add("Maceió");
+    	
+    	List<Transportadora> listaPesquisa = transportadoraRep.findByParameters(nomes, ufs, cidades, modals);
+    	
+    	assertThat(listaPesquisa.size()).isEqualTo(2);
+    }
+    
+    @Test
+    public void testPesquisarTodasTransportadoras() {
+    	
+    	List<Transportadora> listaPesquisa = transportadoraRep.findAll();
+    	
+    	assertThat(listaPesquisa.size()).isGreaterThan(0);
+    }
+    
+    @Test
+    public void testPesquisarTransportadorasPorId() {
+    	
+    	List<Transportadora> listaPesquisa = transportadoraRep.findAll();
+    	
+    	Transportadora transportadora = listaPesquisa.get(0);
+    	
+    	Optional<Transportadora> pesquisada = transportadoraRep.findById(transportadora.getId());
+    	
+    	assertThat(pesquisada.get()).isNotNull();
+    }
+   
     
     /*@Test
     public void pesquisarTransportadoraPorNome() {

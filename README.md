@@ -30,7 +30,6 @@ O projeto foi criado e desenvolvido seguindo a estrutura descrita abaixo:
 ├── Spring Elements
 ├── src
 │   └── main
-|       └── resources
 │       └── java
 │           ├── br.com.hivecloud.transportadora.controller
 │           ├── br.com.hivecloud.transportadora.model
@@ -39,48 +38,57 @@ O projeto foi criado e desenvolvido seguindo a estrutura descrita abaixo:
 ├── src
 │   └── main
 │       └── resources
-│           └── static
-│           │   ├── css
-│           │   │   └── bootstrap.css
-│           │   ├── images
-│           │   ├── js
-│           │   ├── favicon.ico
-│           │   └── index.html
-│           ├── templates
-│           │   └── view.html
 │           ├── application.properties
-│           ├── banner.txt
-│           └── log4j2.xml
+|           ├── data.sql
 ├── src
 │   └── test
 │       └── java
+|           ├── br.com.hivecloud.transportadora.controller
+│           ├── br.com.hivecloud.transportadora.repository
+│           ├── br.com.hivecloud.transportadora.service
 ├── JRE System Library
 ├── Maven Dependencies
-├── bin
-├── logs
-│   └── application.log
 ├── src
 ├── target
-│   └──application-0.0.1-SNAPSHOT
 ├── mvnw
 ├── mvnw.cmd
 ├── pom.xml
-└── README.md
 ```
 * 	[Front-End]
+```
+.
+├── Angular Elements
+├── src
+│   └── app
+│       ├── components
+|       |   ├── menu
+|       |   ├── transportadora
+|       |   ├── transportadora-formulario
+│       ├── models
+│       ├── pages
+|       |   ├── error404
+│       ├── services
+|   └── assets
+|   └── environments
+├── Angular standard files   
+```
 
 ## Pacotes
 
 * 	[API]
 - `controller` — Pasta responsável pelo mapeamento e direcionamento das ações recebidas (request) pela camada da apresentação para os respectivos serviços da aplicação.
-- `model` — to communicate with the database;
-- `repository` — to hold our business logic;
-- `service` — to listen to the client;
-- `resources/application.properties` - It contains application-wide properties. Spring reads the properties defined in this file to configure your application. You can define server’s default port, server’s context path, database URLs etc, in this file.
+- `model` — Pasta responsável pelo armazenamento de classes básicas e Enums;
+- `repository` — Pasta responsável pelo armazenamento de arquivos que realizam consultas na base de dados;
+- `service` — Pasta responsável pelo armazenamento dos arquivos que detalham os serviços da aplicação consumindo os arquivos as pasta repository;
+- `resources/application.properties` - Arquivo que contem as propriedades do sistema, como os dados de conexão do banco de dados.
 - `test/` - Pacote onde se encontram os testes unitários.
 - `pom.xml` - Arquivo onde se encontram todas as dependências do projeto.
 
 * 	[Fron-End]
+- `components` — Pasta responsável pelo armazenamento dos componentes utilizados pela aplicação.
+- `models` — Pasta responsável pelo armazenamento das classes básicas da aplicação.
+- `pages` — Pasta responsável pelo armazenamento das páginas default do sistema, como por exemplo, página de erro404.
+- `services` — Pasta responsável pela consumação da API através do HTTPClient.
 
 
 ## Liçensa

@@ -1,50 +1,71 @@
 package br.com.hivecloud.transportadora.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-import br.com.hivecloud.transportadora.controller.TransportadoraController;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.com.hivecloud.transportadora.model.entity.Modal;
 import br.com.hivecloud.transportadora.model.entity.Transportadora;
 import br.com.hivecloud.transportadora.model.response.Response;
 
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@AutoConfigureMockMvc
 public class TransportadoraControllerTest {
 
 	@Autowired
-    private TestEntityManager entityManager;
- 
-    @Autowired
-    private TransportadoraController transportadoraController;
+	public WebApplicationContext context;
 	
-	@Test 
-	public void testeBuscarTodosTransportadora() {
-		ResponseEntity<Response> response = transportadoraController.findAll();
-			
-		//Verificando se a requisição foi bem sucedida
-		assertEquals(200, response.getStatusCodeValue());
-		assertEquals(true, response.getBody().getData()!=null);
+	@Autowired
+	private MockMvc mvc;
+	
+	@MockBean
+	TransportadoraController transportadoraController;
+	
+	ObjectMapper mapper = new ObjectMapper();
+	
+	
+	@Before
+	public void setup() {
+		this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
 	}
 	
 	@Test
-	public void testeInserirTransportadora() {
-		//Inserindo o dado
-    	Transportadora transportadora = new Transportadora();
+	public void testRequisicaoFindAllSucess() throws Exception {
+		String url = "/transportadora/buscarTodos/";
+		this.mvc.perform(get(url)).andExpect(status().isOk());
+	}
+	
+	@Test
+	public void it_should_return_created_user() throws Exception{
+		String url = "/transportadora/inserir/";
+		
+		Transportadora transportadora = new Transportadora();
     	transportadora.setEmail("teste@hotmail.com");
-    	transportadora.setNome("Transportadora teste");
+    	transportadora.setNome("Bruno Felix");
     	transportadora.setEmpresa("11111111111111");
-    	transportadora.setTelefone("(81) 99999-9999");
-    	transportadora.setCelular("(81) 99999-9999");
-    	transportadora.setWhatsapp("(81) 99999-9999");
+    	transportadora.setTelefone("81999999999");
+    	transportadora.setCelular("81999999999");
+    	transportadora.setWhatsapp("81999999999");
     	Modal modal = new Modal();
     	modal.setId(new Long(1));
     	transportadora.setModal(modal);
@@ -54,11 +75,12 @@ public class TransportadoraControllerTest {
     	transportadora.setBairro("Barra de Jangada");
     	transportadora.setRua("Rua Alvorada");
     	transportadora.setNumero("00");
-    	entityManager.persist(transportadora);
-    	entityManager.flush();
-    	
-    	ResponseEntity<Response> response= transportadoraController.save(transportadora);
-
-    	assertEquals(201, response.getStatusCode());
+		ResponseEntity<Response> response = null;
+		
+		when(transportadoraController.save(transportadora)).thenReturn(response);
+		
+		this.mvc.perform(post(url).content(mapper.writeValueAsBytes(transportadora)).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(jsonPath("$.nome").value(transportadora.getNome()));
 	}
+	
+	
 }

@@ -3,6 +3,7 @@ package br.com.hivecloud.transportadora.service;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.hivecloud.transportadora.model.entity.Transportadora;
 import br.com.hivecloud.transportadora.model.response.Response;

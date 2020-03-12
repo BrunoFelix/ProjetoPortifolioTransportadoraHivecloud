@@ -4,16 +4,27 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-
+/**
+ * Classe para ser o modelo de resposta a requisição
+ * @author bruno
+ *
+ */
 @Component
 public class Response {
 
+	
 	private HttpStatus httpStatus;
 	
 	private String mensagem;
 	
+	/**
+	 * Lista de erros
+	 */
 	private List<String> erros;
 	
+	/**
+	 * Objeto
+	 */
 	private Object data;
 
 	public Object getData() {

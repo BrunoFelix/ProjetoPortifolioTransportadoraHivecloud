@@ -31,24 +31,16 @@ public class Transportadora implements Serializable {
 	private Long id;
 
 	@Size(min = 4)
-	@NotNull(message = "Por favor, preencha o campo de E-mail")
-	@NotBlank(message= "Campo E-mail não pode estar vazio")
 	@Email
 	@Column(nullable = false)
 	private String email;
 	
-	@NotNull(message = "Por favor, preencha o campo Nome")
-	@NotBlank(message= "Campo Nome não pode estar vazio")
 	@Column(nullable = false)
 	private String nome;
 	
-	@NotNull(message = "Por favor, preencha o campo Empresa")
-	@NotBlank(message= "Campo Empresa não pode estar vazio")
 	@Column(nullable = false)
 	private String empresa;
 	
-	@NotNull(message = "Por favor, preencha o campo Telefone")
-	@NotBlank(message= "Campo Telefone não pode estar vazio")
 	@Column(nullable = false)
 	private String telefone;
 	
@@ -58,40 +50,30 @@ public class Transportadora implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "idModal", nullable = false, foreignKey=@ForeignKey(name="fk_modal_transportadora"))
-	@NotNull(message="Por favor, preencha o campo Modal")
 	private Modal modal;
 	
 	private String cep;
 	
-	@NotNull(message = "Por favor, preencha o campo UF")
-	@NotBlank(message= "Campo UF não pode estar vazio")
 	@Column(nullable = false)
 	private String uf;
 	
 	@Transient
 	private String descricaoUf;
 
-	@NotNull(message = "Por favor, preencha o campo Cidade")
-	@NotBlank(message= "Campo Cidade não pode estar vazio")
 	@Column(nullable = false)
 	private String cidade;
 	
-	@NotNull(message = "Por favor, preencha o campo Bairro")
-	@NotBlank(message= "Campo Bairro não pode estar vazio")
 	@Column(nullable = false)
 	private String bairro;
 	
-	@NotNull(message = "Por favor, preencha o campo Rua/Avenida")
-	@NotBlank(message= "Campo Rua/Avenida não pode estar vazio")
 	@Column(nullable = false)
 	private String rua;
 	
-	@NotNull(message = "Por favor, preencha o campo Número")
-	@NotBlank(message= "Campo Número não pode estar vazio")
 	@Column(nullable = false)
 	private String numero;
 	
-	private String caminhoLogo;
+	@Column(length = 13000)
+	private String imagem;
 
 	/**
 	 * Getters e Setters
@@ -209,12 +191,12 @@ public class Transportadora implements Serializable {
 		this.numero = numero;
 	}
 
-	public String getCaminhoLogo() {
-		return caminhoLogo;
+	public String getImagem() {
+		return imagem;
 	}
 
-	public void setCaminhoLogo(String caminhoLogo) {
-		this.caminhoLogo = caminhoLogo;
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
 	}
 	
 	public String getDescricaoUf() {
